@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compound Growth Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .calculator {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 450px;
+      transition: transform 0.3s ease;
+    }
+
+    .calculator:hover {
+      transform: translateY(-5px);
+    }
+
+    .calculator h2 {
+      margin-bottom: 25px;
+      font-size: 28px;
+      text-align: center;
+      color: #00796b;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #00796b;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      margin: 5px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s;
+      background-color: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #00796b;
+      background-color: white;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.1);
+    }
+
+    input::placeholder {
+      color: #aaa;
+      font-weight: 300;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background-color: #004d40;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 77, 64, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      margin-top: 25px;
+      background: #e0f2f1;
+      padding: 18px;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 17px;
+      color: #004d40;
+      line-height: 1.5;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .result-title {
+      font-weight: 600;
+      color: #00796b;
+      margin-bottom: 5px;
+    }
+
+    .result-value {
+      font-size: 18px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #00796b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <div class="logo">Compound Growth Calculator</div>
+  <h2>Calculate Your Investment Growth</h2>
+
+  <div class="input-group">
+    <label for="initial">Initial Investment Amount</label>
+    <input type="number" id="initial" placeholder="Enter your starting capital (e.g. 10,000)">
+  </div>
+
+  <div class="input-group">
+    <label for="rate">Daily Growth Rate (%)</label>
+    <input type="number" id="rate" placeholder="Expected daily percentage growth (e.g. 2.5)">
+  </div>
+
+  <div class="input-group">
+    <label for="days">Investment Period (Days)</label>
+    <input type="number" id="days" placeholder="Number of days to compound (e.g. 365)">
+  </div>
+
+  <button onclick="calculate()">Calculate Growth</button>
+
+  <div class="result" id="finalValue">
+    <div class="result-title">Future Value</div>
+    <div class="result-value">-</div>
+  </div>
+  <div class="result" id="totalEarnings">
+    <div class="result-title">Total Earnings</div>
+    <div class="result-value">-</div>
+  </div>
+</div>
+
+<script>
+  function calculate() {
+    const initial = parseFloat(document.getElementById("initial").value);
+    const rate = parseFloat(document.getElementById("rate").value) / 100;
+    const days = parseInt(document.getElementById("days").value);
+
+    if (isNaN(initial) || isNaN(rate) || isNaN(days)) {
+      alert("Please enter valid numbers in all fields");
+      return;
+    }
+
+    if (rate <= 0 || rate > 100) {
+      alert("Please enter a valid growth rate between 0 and 100%");
+      return;
+    }
+
+    const final = initial * Math.pow(1 + rate, days);
+    const total = final - initial;
+
+    document.getElementById("finalValue").innerHTML = `
+      <div class="result-title">Value on Day ${days}</div>
+      <div class="result-value">₹${final.toLocaleString('en-IN', {maximumFractionDigits: 2})}</div>
+    `;
+
+    document.getElementById("totalEarnings").innerHTML = `
+      <div class="result-title">Total Earnings Over ${days} Days</div>
+      <div class="result-value">₹${total.toLocaleString('en-IN', {maximumFractionDigits: 2})}</div>
+    `;
+  }
+</script>
+
+</body>
+</html>
